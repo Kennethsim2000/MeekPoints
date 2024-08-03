@@ -1,3 +1,5 @@
+"use client"; // This is a client component
+
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,12 +10,11 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 type Task = {
   taskId: number;
@@ -24,52 +25,19 @@ type Task = {
   status: string;
 };
 
-type TaskRender = {
-  taskId: number;
-  taskName: string;
-  meekPoints: number;
-  owner: string;
-  dateCreated: string;
-  status: string;
-};
-
-function createTask(
-  taskId: number,
-  taskName: string,
-  meekPoints: number,
-  owner: string,
-  dateCreated: string,
-  status: string
-): TaskRender {
-  return {
-    taskId,
-    taskName,
-    meekPoints,
-    owner,
-    dateCreated,
-    status,
-  };
-}
-
-const rows = [
-  createTask(1, "Gym", 2, "Kenneth", new Date().toDateString(), "uncompleted"),
-  createTask(
-    2,
-    "Test2",
-    2,
-    "Kenneth",
-    new Date().toDateString(),
-    "uncompleted"
-  ),
-  createTask(3, "Gym2", 2, "Kenneth", new Date().toDateString(), "uncompleted"),
-  createTask(4, "Gym", 2, "Kenneth", new Date().toDateString(), "uncompleted"),
-  createTask(5, "Gym", 2, "Kenneth", new Date().toDateString(), "uncompleted"),
-];
-
 export default function Home() {
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  useEffect(() => {
+    axios.get("/api/task").then((res) => {
+      const totalTask = res.data;
+      setTasks(totalTask);
+    });
+  }, []);
+
   return (
-    <main className="flex items-center justify-center h-screen p-4">
-      <div className="w-full max-w-4xl bg-white shadow-md rounded-lg overflow-x-auto">
+    <main className="flex h-screen w-screen">
+      <div className="w-full md:w-5/6 bg-white shadow-md rounded-lg overflow-x-auto p-4">
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -88,8 +56,8 @@ export default function Home() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.taskId}>
+              {tasks.map((task) => (
+                <TableRow key={task.taskId}>
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
@@ -99,17 +67,19 @@ export default function Home() {
                     />
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {row.taskName}
+                    {task.taskName}
                   </TableCell>
-                  <TableCell align="right">{row.meekPoints}</TableCell>
-                  <TableCell align="right">{row.dateCreated}</TableCell>
+                  <TableCell align="right">{task.meekPoints}</TableCell>
+                  <TableCell align="right">
+                    {new Date(task.dateCreated).toDateString()}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
       </div>
-      <div className="hidden md:flex md:flex-col md:items-end md:absolute md:top-0 md:right-0 md:h-screen md:w-80 bg-slate-100 ">
+      <div className="hidden md:w-1/6 md:bg-slate-100 md:flex md:flex-col md:p-4">
         <List className="w-full flex-grow overflow-auto">
           <ListItem className="w-full">
             <Card className="w-full">
