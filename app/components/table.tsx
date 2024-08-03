@@ -22,7 +22,7 @@ type PropType = {
 };
 export default function TableComponent(props: PropType) {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} className="h-full">
       <Table stickyHeader>
         <TableHead>
           <TableRow>
