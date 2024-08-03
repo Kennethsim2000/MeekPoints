@@ -31,33 +31,19 @@ export default function Home() {
   useEffect(() => {
     axios.get("/api/task").then((res) => {
       const totalTask = res.data;
+      console.log(totalTask);
       setTasks(totalTask);
     });
   }, []);
 
   return (
     <main className="flex h-screen w-screen">
-      <div className="w-full md:w-5/6 bg-white shadow-md rounded-lg overflow-x-auto p-4">
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    color="primary"
-                    inputProps={{
-                      "aria-label": "select all desserts",
-                    }}
-                  />
-                </TableCell>
-                <TableCell>TaskName</TableCell>
-                <TableCell align="right">MeekPoints</TableCell>
-                <TableCell align="right">Date Created</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {tasks.map((task) => (
-                <TableRow key={task.taskId}>
+      <div className="w-full md:w-4/5 bg-white shadow-md rounded-lg h-screen">
+        <div className="h-2/3 border border-solid border-gray-300 overflow-x-auto overflow-y-auto">
+          <TableContainer component={Paper}>
+            <Table stickyHeader>
+              <TableHead>
+                <TableRow>
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
@@ -66,20 +52,38 @@ export default function Home() {
                       }}
                     />
                   </TableCell>
-                  <TableCell component="th" scope="row">
-                    {task.taskName}
-                  </TableCell>
-                  <TableCell align="right">{task.meekPoints}</TableCell>
-                  <TableCell align="right">
-                    {new Date(task.dateCreated).toDateString()}
-                  </TableCell>
+                  <TableCell>TaskName</TableCell>
+                  <TableCell align="right">MeekPoints</TableCell>
+                  <TableCell align="right">Date Created</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {tasks.map((task) => (
+                  <TableRow key={task.taskId}>
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        color="primary"
+                        inputProps={{
+                          "aria-label": "select all desserts",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      {task.taskName}
+                    </TableCell>
+                    <TableCell align="right">{task.meekPoints}</TableCell>
+                    <TableCell align="right">
+                      {new Date(task.dateCreated).toDateString()}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+        <div className="bg-slate-300 flex h-1/3">Test</div>
       </div>
-      <div className="hidden md:w-1/6 md:bg-slate-100 md:flex md:flex-col md:p-4">
+      <div className="hidden md:w-1/5 md:bg-slate-100 md:flex md:flex-col md:p-4">
         <List className="w-full flex-grow overflow-auto">
           <ListItem className="w-full">
             <Card className="w-full">
