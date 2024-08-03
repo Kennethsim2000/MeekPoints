@@ -13,10 +13,13 @@ import ListItem from "@mui/material/ListItem";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import TableComponent from "./components/table";
 
-type Task = {
+export type Task = {
   taskId: number;
   taskName: string;
   meekPoints: number;
@@ -42,7 +45,7 @@ export default function Home() {
     <main className="flex h-screen w-screen">
       <div className="w-full md:w-4/5 bg-white shadow-md rounded-lg h-screen">
         <div className="h-2/3 border border-solid border-gray-300 overflow-x-auto overflow-y-auto">
-          <TableContainer component={Paper}>
+          {/* <TableContainer component={Paper}>
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
@@ -81,9 +84,18 @@ export default function Home() {
                 ))}
               </TableBody>
             </Table>
-          </TableContainer>
+          </TableContainer> */}
+          <TableComponent tasks={tasks} />
         </div>
-        <div className="bg-slate-300 flex h-1/3">Test</div>
+        <div className="bg-slate-300 flex h-1/3 justify-center items-center">
+          <div>
+            <ButtonGroup variant="outlined" aria-label="Loading button group">
+              <Button>Complete Task</Button>
+              <Button>Load Stats</Button>
+              <Button>Visit partner</Button>
+            </ButtonGroup>
+          </div>
+        </div>
       </div>
       <div className="hidden md:w-1/5 md:bg-slate-100 md:flex md:flex-col md:p-4">
         <List className="w-full flex-grow overflow-auto">
