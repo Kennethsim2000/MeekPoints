@@ -25,6 +25,8 @@ type Task = {
   status: string;
 };
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
