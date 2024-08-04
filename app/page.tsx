@@ -7,8 +7,8 @@ import axios from "axios";
 import TableComponent from "./components/table";
 import HistoryComponent from "./components/history";
 import ModalCompleteComponent from "./components/modalComplete";
+import ModalAddTaskComponent from "./components/modalAddTask";
 import Link from "next/link";
-import Form from "react-bootstrap/Form";
 
 export type Task = {
   _id: string;
@@ -24,6 +24,7 @@ export const dynamic = "force-dynamic";
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [showComplete, setShowComplete] = useState<boolean>(false);
+  const [showAddTask, setShowAddTask] = useState<boolean>(false);
 
   useEffect(() => {
     axios.get("/api/task").then((res) => {
@@ -47,7 +48,7 @@ export default function Home() {
               <Button onClick={() => setShowComplete(true)}>
                 Complete Task
               </Button>
-              <Button>Add Task</Button>
+              <Button onClick={() => setShowAddTask(true)}>Add Task</Button>
               <Button>Load Stats</Button>
               <Link href="/Jamie">
                 <Button>Visit partner</Button>
@@ -62,6 +63,10 @@ export default function Home() {
         setShowComplete={setShowComplete}
       />
 
+      <ModalAddTaskComponent
+        showAddTask={showAddTask}
+        setShowAddTask={setShowAddTask}
+      />
       <div className="hidden md:w-1/5 md:bg-slate-100 md:flex md:flex-col md:p-4">
         <HistoryComponent />
       </div>

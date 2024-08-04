@@ -8,6 +8,7 @@ import TableComponent from "../components/table";
 import HistoryComponent from "../components/history";
 import Link from "next/link";
 import ModalCompleteComponent from "../components/modalComplete";
+import ModalAddTaskComponent from "../components/modalAddTask";
 
 export type Task = {
   _id: string;
@@ -23,6 +24,7 @@ export const dynamic = "force-dynamic";
 export default function Page() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [showComplete, setShowComplete] = useState<boolean>(false);
+  const [showAddTask, setShowAddTask] = useState<boolean>(false);
 
   useEffect(() => {
     axios.get("/api/task").then((res) => {
@@ -46,7 +48,7 @@ export default function Page() {
               <Button onClick={() => setShowComplete(true)}>
                 Complete Task
               </Button>
-              <Button>Add Task</Button>
+              <Button onClick={() => setShowAddTask(true)}>Add Task</Button>
               <Button>Load Stats</Button>
               <Link href="/">
                 <Button>Visit partner</Button>
@@ -59,6 +61,10 @@ export default function Page() {
       <ModalCompleteComponent
         showComplete={showComplete}
         setShowComplete={setShowComplete}
+      />
+      <ModalAddTaskComponent
+        showAddTask={showAddTask}
+        setShowAddTask={setShowAddTask}
       />
       <div className="hidden md:w-1/5 md:bg-slate-100 md:flex md:flex-col md:p-4">
         <HistoryComponent />

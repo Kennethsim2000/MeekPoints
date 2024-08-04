@@ -1,6 +1,5 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "@mui/material/Button";
-import { useState } from "react";
 
 type PropType = {
   showComplete: boolean;
