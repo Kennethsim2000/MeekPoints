@@ -9,7 +9,7 @@ import Checkbox from "@mui/material/Checkbox";
 // import Task from "../page";
 
 export type Task = {
-  taskId: number;
+  _id: string;
   taskName: string;
   meekPoints: number;
   owner: string;
@@ -41,7 +41,7 @@ export default function TableComponent(props: PropType) {
         </TableHead>
         <TableBody>
           {props.tasks.map((task: Task) => (
-            <TableRow key={task.taskId}>
+            <TableRow key={task._id}>
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"

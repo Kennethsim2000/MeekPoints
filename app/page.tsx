@@ -6,11 +6,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import TableComponent from "./components/table";
 import HistoryComponent from "./components/history";
-import Modal from "react-bootstrap/Modal";
+import ModalCompleteComponent from "./components/modalComplete";
 import Link from "next/link";
+import Form from "react-bootstrap/Form";
 
 export type Task = {
-  taskId: number;
+  _id: string;
   taskName: string;
   meekPoints: number;
   owner: string;
@@ -24,14 +25,13 @@ export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [showComplete, setShowComplete] = useState<boolean>(false);
 
-  const handleClose = () => setShowComplete(false);
-  const handleShow = () => setShowComplete(true);
-
   useEffect(() => {
     axios.get("/api/task").then((res) => {
       const totalTask = res.data;
-      console.log(totalTask);
-      setTasks(totalTask);
+      const kennethTask = totalTask.filter(
+        (task: Task) => task.owner === "Kenneth"
+      );
+      setTasks(kennethTask);
     });
   }, []);
 
@@ -57,28 +57,11 @@ export default function Home() {
         </div>
       </div>
 
-      <Modal
-        show={showComplete}
-        onHide={() => setShowComplete(false)}
-        dialogClassName="modal-90w"
-        aria-labelledby="example-custom-modal-styling-title"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Congratulations!</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Are you sure you have completed the task?</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button color="error" variant="outlined" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="contained" onClick={handleClose}>
-            Yes i have completed!
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ModalCompleteComponent
+        showComplete={showComplete}
+        setShowComplete={setShowComplete}
+      />
+
       <div className="hidden md:w-1/5 md:bg-slate-100 md:flex md:flex-col md:p-4">
         <HistoryComponent />
       </div>
