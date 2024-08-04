@@ -1,9 +1,8 @@
-"use client"; // This is a client component
+"use client";
 
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import TableComponent from "./components/table";
 import HistoryComponent from "./components/history";
 import ModalCompleteComponent from "./components/modalComplete";
@@ -27,13 +26,15 @@ export default function Home() {
   const [showAddTask, setShowAddTask] = useState<boolean>(false);
 
   useEffect(() => {
-    axios.get("/api/task").then((res) => {
-      const totalTask = res.data;
+    async function fetchTasks() {
+      const res = await fetch("/api/task");
+      const totalTask = await res.json();
       const kennethTask = totalTask.filter(
         (task: Task) => task.owner === "Kenneth"
       );
       setTasks(kennethTask);
-    });
+    }
+    fetchTasks();
   }, []);
 
   return (
@@ -66,6 +67,8 @@ export default function Home() {
       <ModalAddTaskComponent
         showAddTask={showAddTask}
         setShowAddTask={setShowAddTask}
+        user="Kenneth"
+        setTasks={setTasks}
       />
       <div className="hidden md:w-1/5 md:bg-slate-100 md:flex md:flex-col md:p-4">
         <HistoryComponent />

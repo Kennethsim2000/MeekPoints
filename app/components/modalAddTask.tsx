@@ -2,10 +2,21 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import { Task } from "../page";
 
 type PropType = {
   showAddTask: boolean;
   setShowAddTask: (complete: boolean) => void;
+  user: string;
+  setTasks: (tasks: Task[]) => void;
+};
+
+type TaskAdd = {
+  taskName: string;
+  meekPoints: number;
+  owner: string;
+  dateCreated: Date;
+  status: string;
 };
 
 export default function ModalAddTaskComponent(props: PropType) {
@@ -16,6 +27,30 @@ export default function ModalAddTaskComponent(props: PropType) {
    * Function that adds a task
    */
   const handleAddTask = () => {
+    const taskToAdd: TaskAdd = {
+      taskName: taskName,
+      meekPoints: meekPoints,
+      owner: props.user,
+      dateCreated: new Date(),
+      status: "uncompleted",
+    };
+    fetch("/api/task", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(taskToAdd),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const currUserTasks = data.filter(
+          (task: Task) => task.owner === props.user
+        );
+        props.setTasks(currUserTasks);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     props.setShowAddTask(false);
     console.log(taskName + " " + meekPoints);
   };
