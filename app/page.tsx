@@ -1,10 +1,5 @@
 "use client"; // This is a client component
 
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
@@ -12,6 +7,7 @@ import axios from "axios";
 import TableComponent from "./components/table";
 import HistoryComponent from "./components/history";
 import Modal from "react-bootstrap/Modal";
+import Link from "next/link";
 
 export type Task = {
   taskId: number;
@@ -53,7 +49,9 @@ export default function Home() {
               </Button>
               <Button>Add Task</Button>
               <Button>Load Stats</Button>
-              <Button>Visit partner</Button>
+              <Link href="/Jamie">
+                <Button>Visit partner</Button>
+              </Link>
             </ButtonGroup>
           </div>
         </div>
@@ -82,41 +80,6 @@ export default function Home() {
         </Modal.Footer>
       </Modal>
       <div className="hidden md:w-1/5 md:bg-slate-100 md:flex md:flex-col md:p-4">
-        {/* <List className="w-full flex-grow overflow-auto">
-          <ListItem className="w-full">
-            <Card className="w-full">
-              <CardContent>
-                <Typography variant="body2">Completed Gym</Typography>
-                <Typography variant="body2">Kenneth</Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  2 days ago
-                </Typography>
-              </CardContent>
-            </Card>
-          </ListItem>
-          <ListItem>
-            <Card className="w-full">
-              <CardContent>
-                <Typography variant="body2">Completed Gym</Typography>
-                <Typography variant="body2">Kenneth</Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  2 days ago
-                </Typography>
-              </CardContent>
-            </Card>
-          </ListItem>
-          <ListItem>
-            <Card className="w-full">
-              <CardContent>
-                <Typography variant="body2">Completed Gym</Typography>
-                <Typography variant="body2">Kenneth</Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  2 days ago
-                </Typography>
-              </CardContent>
-            </Card>
-          </ListItem>
-        </List> */}
         <HistoryComponent />
       </div>
     </main>
