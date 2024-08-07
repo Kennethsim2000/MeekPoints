@@ -6,7 +6,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-// import Task from "../page";
+import Button from "@mui/material/Button";
 
 export type Task = {
   _id: string;
@@ -19,6 +19,8 @@ export type Task = {
 
 type PropType = {
   tasks: Task[];
+  showAddTask: boolean;
+  setShowAddTask: (complete: boolean) => void;
 };
 export default function TableComponent(props: PropType) {
   return (
@@ -27,12 +29,13 @@ export default function TableComponent(props: PropType) {
         <TableHead>
           <TableRow>
             <TableCell padding="checkbox">
-              <Checkbox
-                color="primary"
-                inputProps={{
-                  "aria-label": "select all desserts",
-                }}
-              />
+              <Button
+                variant="outlined"
+                sx={{ whiteSpace: "nowrap" }}
+                onClick={() => props.setShowAddTask(true)}
+              >
+                Add Task
+              </Button>
             </TableCell>
             <TableCell>TaskName</TableCell>
             <TableCell align="right">MeekPoints</TableCell>

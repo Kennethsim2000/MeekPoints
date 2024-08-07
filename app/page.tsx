@@ -41,7 +41,11 @@ export default function Home() {
     <main className="flex h-screen w-screen">
       <div className="w-full md:w-4/5 bg-white shadow-md rounded-lg h-screen">
         <div className="h-2/3 overflow-x-auto overflow-y-auto">
-          <TableComponent tasks={tasks} />
+          <TableComponent
+            tasks={tasks}
+            showAddTask={showAddTask}
+            setShowAddTask={setShowAddTask}
+          />
         </div>
         <div className="bg-slate-300 flex h-1/3 justify-center items-center">
           <div>
@@ -49,7 +53,6 @@ export default function Home() {
               <Button onClick={() => setShowComplete(true)}>
                 Complete Task
               </Button>
-              <Button onClick={() => setShowAddTask(true)}>Add Task</Button>
               <Button>Load Stats</Button>
               <Link href="/Jamie">
                 <Button>Visit partner</Button>
