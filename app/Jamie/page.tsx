@@ -24,6 +24,7 @@ export default function Page() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [showComplete, setShowComplete] = useState<boolean>(false);
   const [showAddTask, setShowAddTask] = useState<boolean>(false);
+  const [selectedTask, setSelectedTask] = useState<string>("");
 
   useEffect(() => {
     async function fetchTasks() {
@@ -45,14 +46,14 @@ export default function Page() {
             tasks={tasks}
             showAddTask={showAddTask}
             setShowAddTask={setShowAddTask}
+            showComplete={showComplete}
+            setShowComplete={setShowComplete}
+            setSelectedTask={setSelectedTask}
           />
         </div>
         <div className="bg-slate-300 flex h-1/3 justify-center items-center">
           <div>
             <ButtonGroup variant="outlined" aria-label="Loading button group">
-              <Button onClick={() => setShowComplete(true)}>
-                Complete Task
-              </Button>
               <Button>Load Stats</Button>
               <Link href="/">
                 <Button>Visit partner</Button>
@@ -63,8 +64,11 @@ export default function Page() {
       </div>
 
       <ModalCompleteComponent
+        user="Jamie"
         showComplete={showComplete}
         setShowComplete={setShowComplete}
+        selectedTask={selectedTask}
+        setTasks={setTasks}
       />
       <ModalAddTaskComponent
         showAddTask={showAddTask}

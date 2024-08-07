@@ -21,8 +21,18 @@ type PropType = {
   tasks: Task[];
   showAddTask: boolean;
   setShowAddTask: (complete: boolean) => void;
+  showComplete: boolean;
+  setShowComplete: (complete: boolean) => void;
+  setSelectedTask: (taskId: string) => void;
 };
 export default function TableComponent(props: PropType) {
+  const handleCheckboxChange = (id: string, checked: boolean) => {
+    if (checked) {
+      props.setShowComplete(true);
+      props.setSelectedTask(id);
+    }
+  };
+
   return (
     <TableContainer component={Paper} className="h-full">
       <Table stickyHeader>
@@ -51,6 +61,9 @@ export default function TableComponent(props: PropType) {
                   inputProps={{
                     "aria-label": "select all desserts",
                   }}
+                  onChange={(e) =>
+                    handleCheckboxChange(task._id, e.target.checked)
+                  }
                 />
               </TableCell>
               <TableCell component="th" scope="row">
