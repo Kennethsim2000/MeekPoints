@@ -39,9 +39,9 @@ export default function Page() {
   }, []);
 
   return (
-    <main className="flex h-screen w-screen">
-      <div className="w-full md:w-4/5 bg-white shadow-md rounded-lg h-screen">
-        <div className="h-2/3 overflow-x-auto overflow-y-auto">
+    <main className="flex h-screen w-screen bg-slate-100">
+      <div className="w-full md:w-4/5 bg-slate-100 shadow-md rounded-lg h-screen md:p-8">
+        <div className="h-3/5 overflow-x-auto overflow-y-auto md: mb-4">
           <TableComponent
             tasks={tasks}
             showAddTask={showAddTask}
@@ -51,7 +51,7 @@ export default function Page() {
             setSelectedTask={setSelectedTask}
           />
         </div>
-        <div className="bg-slate-300 flex h-1/3 justify-center items-center">
+        <div className=" flex bg-white h-2/5 justify-center items-center">
           <div>
             <ButtonGroup variant="outlined" aria-label="Loading button group">
               <Button>Load Stats</Button>
@@ -76,7 +76,7 @@ export default function Page() {
         user="Jamie"
         setTasks={setTasks}
       />
-      <div className="hidden md:w-1/5 md:bg-slate-100 md:flex md:flex-col md:p-4">
+      <div className="hidden md:w-1/5  md:flex md:flex-col md:p-4">
         <HistoryComponent />
       </div>
     </main>
