@@ -1,20 +1,18 @@
 import { MongoClient, ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
+import clientPromise from "../../../lib/mongodb";
 
 export const dynamic = "force-dynamic";
 export async function GET(req: Request) {
   if (req.method === "GET") {
-    const client = new MongoClient(process.env.MONGODB_URI!, {});
     try {
-      await client.connect();
+      const client = await clientPromise;
       const database = client.db(process.env.DATABASE);
       const collection = database.collection("Tasks");
       const allData = await collection.find({}).toArray();
       return NextResponse.json(allData);
     } catch (error) {
       return NextResponse.json({ message: error });
-    } finally {
-      await client.close();
     }
   } else {
     return NextResponse.json({ message: "Method not allowed!" });
@@ -23,9 +21,8 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   if (req.method === "POST") {
-    const client = new MongoClient(process.env.MONGODB_URI!, {});
     try {
-      await client.connect();
+      const client = await clientPromise;
       const database = client.db(process.env.DATABASE);
       const collection = database.collection("Tasks");
       const task = await req.json();
@@ -34,8 +31,6 @@ export async function POST(req: Request) {
       return NextResponse.json(allData);
     } catch (error) {
       return NextResponse.json({ message: error });
-    } finally {
-      await client.close();
     }
   } else {
     return NextResponse.json({ message: "Method not allowed!" });
@@ -44,9 +39,8 @@ export async function POST(req: Request) {
 
 export async function DELETE(req: Request) {
   if (req.method === "DELETE") {
-    const client = new MongoClient(process.env.MONGODB_URI!, {});
     try {
-      await client.connect();
+      const client = await clientPromise;
       const database = client.db(process.env.DATABASE);
       const collection = database.collection("Tasks");
       const url = new URL(req.url);
@@ -56,8 +50,6 @@ export async function DELETE(req: Request) {
       return NextResponse.json(allData);
     } catch (error) {
       return NextResponse.json({ message: error });
-    } finally {
-      await client.close();
     }
   } else {
     return NextResponse.json({ message: "Method not allowed!" });
