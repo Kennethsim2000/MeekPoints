@@ -48,23 +48,31 @@ export default function ModalCompleteComponent(props: PropType) {
         <p>What action would you like to perform?</p>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          color="error"
-          variant="outlined"
-          onClick={() => props.setShowComplete(false)}
-        >
-          Close
-        </Button>
-        <Button variant="contained" onClick={handleDeleteTask}>
-          Delete task
-        </Button>
-        <Button
-          variant="contained"
-          color="success"
-          onClick={handleCompleteTask}
-        >
-          Complete task
-        </Button>
+        <div className="flex flex-wrap justify-between gap-2">
+          <Button
+            color="error"
+            variant="outlined"
+            onClick={() => props.setShowComplete(false)}
+            className="flex-grow sm:flex-grow-0"
+          >
+            Close
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleDeleteTask}
+            className="flex-grow sm:flex-grow-0"
+          >
+            Delete task
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleCompleteTask}
+            className="flex-grow sm:flex-grow-0"
+          >
+            Complete task
+          </Button>
+        </div>
       </Modal.Footer>
     </Modal>
   );
