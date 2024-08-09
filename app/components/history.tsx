@@ -1,45 +1,38 @@
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import React from "react";
+import { TaskCompleted } from "../page";
 
-export default function HistoryComponent() {
+type PropType = {
+  completedTasks: TaskCompleted[];
+};
+
+export default function HistoryComponent(props: PropType) {
   return (
-    <List className="w-full flex-grow overflow-auto">
-      <ListItem className="w-full">
-        <Card className="w-full">
-          <CardContent>
-            <Typography variant="body2">Completed Gym</Typography>
-            <Typography variant="body2">Kenneth</Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              2 days ago
-            </Typography>
-          </CardContent>
-        </Card>
-      </ListItem>
-      <ListItem>
-        <Card className="w-full">
-          <CardContent>
-            <Typography variant="body2">Completed Gym</Typography>
-            <Typography variant="body2">Kenneth</Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              2 days ago
-            </Typography>
-          </CardContent>
-        </Card>
-      </ListItem>
-      <ListItem>
-        <Card className="w-full">
-          <CardContent>
-            <Typography variant="body2">Completed Gym</Typography>
-            <Typography variant="body2">Kenneth</Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              2 days ago
-            </Typography>
-          </CardContent>
-        </Card>
-      </ListItem>
+    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+      {props.completedTasks.map((task: TaskCompleted) => (
+        <div key={task._id}>
+          <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            </ListItemAvatar>
+            <ListItemText
+              primary={"completed " + task.taskName}
+              secondary={
+                <React.Fragment>
+                  {" "}
+                  {new Date(task.dateCreated).toDateString()}
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+          <Divider variant="inset" component="li" />
+        </div>
+      ))}
     </List>
   );
 }

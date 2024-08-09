@@ -8,6 +8,7 @@ import HistoryComponent from "../components/history";
 import Link from "next/link";
 import ModalCompleteComponent from "../components/modalComplete";
 import ModalAddTaskComponent from "../components/modalAddTask";
+import { TaskCompleted } from "../page";
 
 export type Task = {
   _id: string;
@@ -22,6 +23,7 @@ export const dynamic = "force-dynamic";
 
 export default function Page() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [completedTasks, setCompletedTasks] = useState<TaskCompleted[]>([]);
   const [showComplete, setShowComplete] = useState<boolean>(false);
   const [showAddTask, setShowAddTask] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<string>("");
@@ -35,7 +37,16 @@ export default function Page() {
       );
       setTasks(jamieTask);
     }
+    async function fetchCompletedTasks() {
+      const res = await fetch("/api/completed");
+      const totalCompletedTask = await res.json();
+      const JamieCompletedTask = totalCompletedTask.filter(
+        (task: Task) => task.owner === "Jamie"
+      );
+      setCompletedTasks(JamieCompletedTask);
+    }
     fetchTasks();
+    fetchCompletedTasks();
   }, []);
 
   return (
@@ -77,7 +88,7 @@ export default function Page() {
         setTasks={setTasks}
       />
       <div className="hidden md:w-1/5  md:flex md:flex-col md:p-4">
-        <HistoryComponent />
+        <HistoryComponent completedTasks={completedTasks} />
       </div>
     </main>
   );

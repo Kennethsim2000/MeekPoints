@@ -18,10 +18,19 @@ export type Task = {
   status: string;
 };
 
+export type TaskCompleted = {
+  _id: string;
+  taskName: string;
+  meekPoints: number;
+  owner: string;
+  dateCreated: Date;
+};
+
 export const dynamic = "force-dynamic";
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [completedTasks, setCompletedTasks] = useState<TaskCompleted[]>([]);
   const [showComplete, setShowComplete] = useState<boolean>(false);
   const [showAddTask, setShowAddTask] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<string>("");
@@ -35,7 +44,16 @@ export default function Home() {
       );
       setTasks(kennethTask);
     }
+    async function fetchCompletedTasks() {
+      const res = await fetch("/api/completed");
+      const totalCompletedTask = await res.json();
+      const kennethCompletedTask = totalCompletedTask.filter(
+        (task: Task) => task.owner === "Kenneth"
+      );
+      setCompletedTasks(kennethCompletedTask);
+    }
     fetchTasks();
+    fetchCompletedTasks();
   }, []);
 
   return (
@@ -78,7 +96,7 @@ export default function Home() {
         setTasks={setTasks}
       />
       <div className="hidden md:w-1/5  md:flex md:flex-col md:p-4">
-        <HistoryComponent />
+        <HistoryComponent completedTasks={completedTasks} />
       </div>
     </main>
   );

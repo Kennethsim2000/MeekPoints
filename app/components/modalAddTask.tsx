@@ -52,7 +52,6 @@ export default function ModalAddTaskComponent(props: PropType) {
         console.error(error);
       });
     props.setShowAddTask(false);
-    console.log(taskName + " " + meekPoints);
   };
 
   const handleTaskNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
