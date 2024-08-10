@@ -41,7 +41,7 @@ export default function Page() {
       const res = await fetch("/api/completed");
       const totalCompletedTask = await res.json();
       const JamieCompletedTask = totalCompletedTask.filter(
-        (task: Task) => task.owner === "Jamie"
+        (task: TaskCompleted) => task.owner === "Jamie"
       );
       setCompletedTasks(JamieCompletedTask);
     }
@@ -80,6 +80,7 @@ export default function Page() {
         setShowComplete={setShowComplete}
         selectedTask={selectedTask}
         setTasks={setTasks}
+        setCompletedTasks={setCompletedTasks}
       />
       <ModalAddTaskComponent
         showAddTask={showAddTask}

@@ -9,8 +9,15 @@ export async function GET(req: Request) {
       const client = await clientPromise;
       const database = client.db(process.env.DATABASE);
       const collection = database.collection("Tasks");
-      const allData = await collection.find({}).toArray();
-      return NextResponse.json(allData);
+      const url = new URL(req.url);
+      const id = url.searchParams.get("id");
+      if (!id) {
+        const allData = await collection.find({}).toArray();
+        return NextResponse.json(allData);
+      } else {
+        const task = await collection.findOne({ _id: new ObjectId(id || "") });
+        return NextResponse.json(task);
+      }
     } catch (error) {
       return NextResponse.json({ message: error });
     }
@@ -45,7 +52,7 @@ export async function DELETE(req: Request) {
       const collection = database.collection("Tasks");
       const url = new URL(req.url);
       const id = url.searchParams.get("id");
-      collection.deleteOne({ _id: new ObjectId(id || "") });
+      await collection.deleteOne({ _id: new ObjectId(id || "") });
       const allData = await collection.find({}).toArray();
       return NextResponse.json(allData);
     } catch (error) {
