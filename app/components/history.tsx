@@ -18,7 +18,14 @@ export default function HistoryComponent(props: PropType) {
         <div key={task._id}>
           <ListItem alignItems="flex-start">
             <ListItemAvatar>
-              <Avatar alt={task.owner} src="/static/images/avatar/1.jpg" />
+              <Avatar
+                alt={task.owner}
+                src={
+                  task.owner === "Kenneth"
+                    ? "/images/kenneth.jpg"
+                    : "/images/Jamie.jpg"
+                }
+              />
             </ListItemAvatar>
             <ListItemText
               primary={"completed " + task.taskName}

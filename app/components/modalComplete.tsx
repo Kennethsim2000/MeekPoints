@@ -32,7 +32,7 @@ export default function ModalCompleteComponent(props: PropType) {
       taskName: task.taskName,
       meekPoints: task.meekPoints,
       owner: task.owner,
-      dateCreated: task.dateCreated,
+      dateCreated: new Date(),
     };
 
     //add task to completed tasks
