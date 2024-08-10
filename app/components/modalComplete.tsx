@@ -1,7 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import { Task } from "./table";
+import { Task } from "../page";
 import { TaskCompleted } from "../page";
 
 type PropType = {
@@ -45,10 +45,7 @@ export default function ModalCompleteComponent(props: PropType) {
     })
       .then((response) => response.json())
       .then((data) => {
-        const currUserCompletedTasks = data.filter(
-          (task: TaskCompleted) => task.owner === props.user
-        );
-        props.setCompletedTasks(currUserCompletedTasks);
+        props.setCompletedTasks(data);
       })
       .catch((error) => {
         console.error(error);
