@@ -40,10 +40,7 @@ export default function Page() {
     async function fetchCompletedTasks() {
       const res = await fetch("/api/completed");
       const totalCompletedTask = await res.json();
-      const JamieCompletedTask = totalCompletedTask.filter(
-        (task: TaskCompleted) => task.owner === "Jamie"
-      );
-      setCompletedTasks(JamieCompletedTask);
+      setCompletedTasks(totalCompletedTask);
     }
     fetchTasks();
     fetchCompletedTasks();

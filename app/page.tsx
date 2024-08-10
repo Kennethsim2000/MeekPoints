@@ -47,10 +47,7 @@ export default function Home() {
     async function fetchCompletedTasks() {
       const res = await fetch("/api/completed");
       const totalCompletedTask = await res.json();
-      const kennethCompletedTask = totalCompletedTask.filter(
-        (task: TaskCompleted) => task.owner === "Kenneth"
-      );
-      setCompletedTasks(kennethCompletedTask);
+      setCompletedTasks(totalCompletedTask);
     }
     fetchTasks();
     fetchCompletedTasks();
