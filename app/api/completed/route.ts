@@ -25,7 +25,7 @@ export async function POST(req: Request) {
       const collection = database.collection("CompletedTasks");
       const completedTask = await req.json();
       await collection.insertOne(completedTask);
-      const allData = await collection.find({}).toArray();
+      const allData = await collection.find({}).sort({ _id: -1 }).toArray();
       return NextResponse.json(allData);
     } catch (error) {
       return NextResponse.json({ message: error });
