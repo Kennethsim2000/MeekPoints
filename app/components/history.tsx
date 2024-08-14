@@ -11,6 +11,20 @@ type PropType = {
   completedTasks: TaskCompleted[];
 };
 
+const formatDate = (date: Date) => {
+  const currentDate = new Date();
+  const diffInMs = currentDate.getTime() - new Date(date).getTime();
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+  if (diffInHours < 24) {
+    return `${diffInHours} hours ago`;
+  } else if (diffInDays < 7) {
+    return `${diffInDays} days ago`;
+  } else {
+    return new Date(date).toDateString();
+  }
+};
+
 export default function HistoryComponent(props: PropType) {
   return (
     <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
@@ -31,8 +45,9 @@ export default function HistoryComponent(props: PropType) {
               primary={"completed " + task.taskName}
               secondary={
                 <React.Fragment>
-                  {" "}
-                  {new Date(task.dateCreated).toDateString()}
+                  {formatDate(new Date(task.dateCreated))}
+                  <br />
+                  {task.meekPoints + " points"}
                 </React.Fragment>
               }
             />

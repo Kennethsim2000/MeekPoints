@@ -8,7 +8,7 @@ export async function GET(req: Request) {
       const client = await clientPromise;
       const database = client.db(process.env.DATABASE);
       const collection = database.collection("CompletedTasks");
-      const allData = await collection.find({}).toArray();
+      const allData = await collection.find({}).sort({ _id: -1 }).toArray();
       return NextResponse.json(allData);
     } catch (error) {
       return NextResponse.json({ message: error });
