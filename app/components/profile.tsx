@@ -93,7 +93,7 @@ export default function ProfileComponent(props: PropType) {
                   <Nav.Link href="#Week">Week</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link href="#Week">Month</Nav.Link>
+                  <Nav.Link href="#Month">Month</Nav.Link>
                 </Nav.Item>
               </Nav>
             </Card.Header>
@@ -105,12 +105,6 @@ export default function ProfileComponent(props: PropType) {
               </Link>
             </Card.Body>
           </Card>
-          {/* <ButtonGroup variant="outlined" aria-label="Loading button group">
-            <Button>Load Stats</Button>
-            <Link href={partner}>
-              <Button>Visit partner</Button>
-            </Link>
-          </ButtonGroup> */}
         </div>
       </div>
 
