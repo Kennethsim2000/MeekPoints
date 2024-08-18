@@ -8,6 +8,8 @@ import HistoryComponent from "./history";
 import ModalCompleteComponent from "./modalComplete";
 import ModalAddTaskComponent from "./modalAddTask";
 import Link from "next/link";
+import Card from "react-bootstrap/Card";
+import Nav from "react-bootstrap/Nav";
 
 type PropType = {
   user: string;
@@ -39,6 +41,7 @@ export default function ProfileComponent(props: PropType) {
   const [showComplete, setShowComplete] = useState<boolean>(false);
   const [showAddTask, setShowAddTask] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<string>("");
+  const [totalPoints, setTotalPoints] = useState<number>(0);
 
   useEffect(() => {
     async function fetchTasks() {
@@ -51,7 +54,14 @@ export default function ProfileComponent(props: PropType) {
     }
     async function fetchCompletedTasks() {
       const res = await fetch("/api/completed");
-      const totalCompletedTask = await res.json();
+      const totalCompletedTask: TaskCompleted[] = await res.json();
+      const totalUserCompletedTask = totalCompletedTask.filter(
+        (task: TaskCompleted) => task.owner === props.user
+      );
+      const totalMeekPoints = totalUserCompletedTask.reduce((acc, task) => {
+        return acc + task.meekPoints;
+      }, 0);
+      setTotalPoints(totalMeekPoints);
       setCompletedTasks(totalCompletedTask);
     }
     fetchTasks();
@@ -59,6 +69,8 @@ export default function ProfileComponent(props: PropType) {
   }, []);
   return (
     <main className="flex h-screen w-screen bg-slate-100">
+      <div></div>
+
       <div className="w-full md:w-4/5 bg-slate-100 shadow-md rounded-lg h-screen md:p-8">
         <div className="h-3/5 overflow-x-auto overflow-y-auto md: mb-4">
           <TableComponent
@@ -70,15 +82,35 @@ export default function ProfileComponent(props: PropType) {
             setSelectedTask={setSelectedTask}
           />
         </div>
-        <div className=" flex bg-white h-2/5 justify-center items-center">
-          <div>
-            <ButtonGroup variant="outlined" aria-label="Loading button group">
-              <Button>Load Stats</Button>
+        <div className="flex bg-white h-2/5 justify-center items-center w-full md:px-8">
+          <Card className="md:flex-grow ">
+            <Card.Header>
+              <Nav variant="tabs" defaultActiveKey="#Total">
+                <Nav.Item>
+                  <Nav.Link href="#Total">Total</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="#Week">Week</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="#Week">Month</Nav.Link>
+                </Nav.Item>
+              </Nav>
+            </Card.Header>
+            <Card.Body>
+              <Card.Title>Total Points earned</Card.Title>
+              <Card.Text>{totalPoints} points completed</Card.Text>
               <Link href={partner}>
-                <Button>Visit partner</Button>
+                <Button>Visit Partner</Button>
               </Link>
-            </ButtonGroup>
-          </div>
+            </Card.Body>
+          </Card>
+          {/* <ButtonGroup variant="outlined" aria-label="Loading button group">
+            <Button>Load Stats</Button>
+            <Link href={partner}>
+              <Button>Visit partner</Button>
+            </Link>
+          </ButtonGroup> */}
         </div>
       </div>
 
