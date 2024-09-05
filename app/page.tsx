@@ -1,30 +1,23 @@
 "use client";
-
-import ProfileComponent from "./components/profile";
-
-export type Task = {
-  _id: string;
-  taskName: string;
-  meekPoints: number;
-  owner: string;
-  dateCreated: Date;
-  status: string;
-};
-
-export type TaskCompleted = {
-  _id: string;
-  taskName: string;
-  meekPoints: number;
-  owner: string;
-  dateCreated: Date;
-};
+import Button from "@mui/material/Button";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 export default function Home() {
   return (
-    <main className="flex h-screen w-screen bg-slate-100">
-      <ProfileComponent user="Kenneth" />
+    <main className="flex h-screen w-screen bg-slate-100 items-center justify-center space-x-4">
+      <Link href="/Jamie" passHref>
+        <Button variant="contained" color="primary">
+          Jamie Home
+        </Button>
+      </Link>
+
+      <Link href="/Kenneth" passHref>
+        <Button variant="contained" color="secondary">
+          Kenneth Home
+        </Button>
+      </Link>
     </main>
   );
 }

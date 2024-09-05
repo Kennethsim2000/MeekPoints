@@ -2,7 +2,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { Task } from "../page";
+import { Task } from "../Kenneth/page";
 
 type PropType = {
   showAddTask: boolean;

@@ -1,15 +1,11 @@
 "use client";
 
-import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
 import TableComponent from "./table";
 import HistoryComponent from "./history";
 import ModalCompleteComponent from "./modalComplete";
 import ModalAddTaskComponent from "./modalAddTask";
 import PointCardComponent from "./pointCard";
-import Link from "next/link";
-import Card from "react-bootstrap/Card";
-import Nav from "react-bootstrap/Nav";
 
 type PropType = {
   user: string;
@@ -35,7 +31,7 @@ export type TaskCompleted = {
 export const dynamic = "force-dynamic";
 
 export default function ProfileComponent(props: PropType) {
-  const partner = props.user === "Kenneth" ? "/Jamie" : "/";
+  const partner = props.user === "Kenneth" ? "/Jamie" : "/Kenneth";
   const [tasks, setTasks] = useState<Task[]>([]);
   const [completedTasksTotal, setCompletedTasksTotal] = useState<
     TaskCompleted[]
@@ -94,6 +90,7 @@ export default function ProfileComponent(props: PropType) {
             completedTasksUser={completedTasksUser}
             partner={partner}
             totalPoints={totalPoints}
+            user={props.user}
           />
         </div>
       </div>

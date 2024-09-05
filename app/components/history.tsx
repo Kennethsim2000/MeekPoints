@@ -5,7 +5,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import React from "react";
-import { TaskCompleted } from "../page";
+import { TaskCompleted } from "../Kenneth/page";
 
 type PropType = {
   completedTasks: TaskCompleted[];

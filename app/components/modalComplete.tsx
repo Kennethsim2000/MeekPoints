@@ -1,8 +1,8 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import { Task } from "../page";
-import { TaskCompleted } from "../page";
+import { Task } from "../Kenneth/page";
+import { TaskCompleted } from "../Kenneth/page";
 
 type PropType = {
   user: string;

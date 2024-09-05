@@ -9,6 +9,7 @@ type PropType = {
   completedTasksUser: TaskCompleted[];
   totalPoints: number;
   partner: string;
+  user: string;
 };
 
 export default function PointCardComponent(props: PropType) {
@@ -32,6 +33,9 @@ export default function PointCardComponent(props: PropType) {
           <>
             <Card.Title>Total Points earned</Card.Title>
             <Card.Text>{props.totalPoints} points completed</Card.Text>
+            <Link href={props.partner}>
+              <Button>Visit Partner</Button>
+            </Link>
           </>
         );
       case "#Week":
@@ -39,6 +43,9 @@ export default function PointCardComponent(props: PropType) {
           <>
             <Card.Title>Total Points earned this week</Card.Title>
             <Card.Text>{pointsWeek} points completed</Card.Text>
+            <Link href={props.partner}>
+              <Button>Visit Partner</Button>
+            </Link>
           </>
         );
       case "#Month":
@@ -46,6 +53,19 @@ export default function PointCardComponent(props: PropType) {
           <>
             <Card.Title>Total Points earned this month</Card.Title>
             <Card.Text>{pointsMonth} points completed</Card.Text>
+            <Link href={props.partner}>
+              <Button>Visit Partner</Button>
+            </Link>
+          </>
+        );
+      case "#Statistics":
+        return (
+          <>
+            <Card.Title>View your statistics</Card.Title>
+            <Card.Text>{props.totalPoints} points completed in total</Card.Text>
+            <Link href={`/${props.user}/statistics`}>
+              <Button>View statistics</Button>
+            </Link>
           </>
         );
       default:
@@ -114,14 +134,12 @@ export default function PointCardComponent(props: PropType) {
           <Nav.Item>
             <Nav.Link href="#Month">Month</Nav.Link>
           </Nav.Item>
+          <Nav.Item>
+            <Nav.Link href="#Statistics">Statistics</Nav.Link>
+          </Nav.Item>
         </Nav>
       </Card.Header>
-      <Card.Body>
-        {renderCardBody()}
-        <Link href={props.partner}>
-          <Button>Visit Partner</Button>
-        </Link>
-      </Card.Body>
+      <Card.Body>{renderCardBody()}</Card.Body>
     </Card>
   );
 }
