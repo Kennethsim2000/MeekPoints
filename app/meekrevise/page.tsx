@@ -4,18 +4,25 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import { useState } from "react";
+import Modal from "react-bootstrap/Modal";
+import Confetti from "react-confetti";
 
 export const dynamic = "force-dynamic";
 
 export default function Home() {
-  const [user, setUser] = useState("User");
+  const [user, setUser] = useState("");
   const [question, setQuestion] = useState("");
+  const [topic, setTopic] = useState("");
   const [answer, setAnswer] = useState("");
+  const [showAdd, setShowAdd] = useState(false);
 
   const handleChangeUser = (event: SelectChangeEvent) => {
     setUser(event.target.value as string);
   };
 
+  const handleTopicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTopic(event.target.value);
+  };
   const handleQuestionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuestion(event.target.value);
   };
@@ -27,19 +34,45 @@ export default function Home() {
   const handleClear = () => {
     setQuestion("");
     setAnswer("");
-    setUser("User");
+    setTopic("");
+    setUser("");
   };
 
-  const handleSubmit = () => {
-    console.log("Question:", question);
-    console.log("Answer:", answer);
-    console.log("User:", user);
-    // Add your form submission logic here
+  const handleSubmit = async () => {
+    const questionObj = {
+      topic: topic,
+      question: question,
+      answer: answer,
+      username: user,
+      date_shown: new Date(),
+    };
+    fetch("/api/questions", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(questionObj),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setShowAdd(true);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
     <main className="flex h-screen w-screen bg-slate-100 justify-center items-center">
       <div className="space-y-4 w-full max-w-lg">
+        <TextField
+          label="topic"
+          multiline
+          maxRows={1}
+          fullWidth
+          value={topic}
+          onChange={handleTopicChange}
+        />
         <TextField
           label="Question"
           multiline
@@ -79,6 +112,26 @@ export default function Home() {
           </Button>
         </div>
       </div>
+      <Modal
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        show={showAdd}
+        onHide={() => setShowAdd(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Congratulations for adding a question!
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Keep up the good work! MeekRevise is proud of you!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={() => setShowAdd(false)}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+      {showAdd && <Confetti />}
     </main>
   );
 }
