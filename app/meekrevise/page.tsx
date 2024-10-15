@@ -6,6 +6,7 @@ import InputLabel from "@mui/material/InputLabel";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Confetti from "react-confetti";
+import DrawerComponent from "../components/drawer";
 
 export const dynamic = "force-dynamic";
 
@@ -66,7 +67,7 @@ export default function Home() {
     <main className="flex h-screen w-screen bg-slate-100 justify-center items-center">
       <div className="space-y-4 w-full max-w-lg">
         <TextField
-          label="topic"
+          label="Topic"
           multiline
           maxRows={1}
           fullWidth
@@ -132,6 +133,7 @@ export default function Home() {
         </Modal.Footer>
       </Modal>
       {showAdd && <Confetti />}
+      <DrawerComponent />
     </main>
   );
 }
