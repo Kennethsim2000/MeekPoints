@@ -7,6 +7,8 @@ import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Confetti from "react-confetti";
 import DrawerComponent from "../components/drawer";
+import useMediaQuery from "@mui/material/useMediaQuery"; // Import useMediaQuery
+import { useTheme } from "@mui/material/styles"; // Import useTheme
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +18,10 @@ export default function Home() {
   const [topic, setTopic] = useState("");
   const [answer, setAnswer] = useState("");
   const [showAdd, setShowAdd] = useState(false);
+
+  const theme = useTheme();
+
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
 
   const handleChangeUser = (event: SelectChangeEvent) => {
     setUser(event.target.value as string);
@@ -133,7 +139,7 @@ export default function Home() {
         </Modal.Footer>
       </Modal>
       {showAdd && <Confetti />}
-      <DrawerComponent />
+      {isMdUp && <DrawerComponent />}
     </main>
   );
 }

@@ -50,7 +50,6 @@ export default function Home() {
 
   return (
     <Box display="flex" height="100vh">
-      {/* Sidebar */}
       <Drawer variant="permanent" anchor="left">
         <Box sx={{ width: 250 }} role="presentation">
           <List>
