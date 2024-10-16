@@ -1,10 +1,11 @@
+"use client";
+
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
+import DrawerComponent from "../../components/drawer";
 import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import Link from "next/link";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+
 import {
   Typography,
   Card,
@@ -14,87 +15,123 @@ import {
 } from "@mui/material";
 
 export default function Home() {
+  const theme = useTheme();
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+
+  const widthOfCard = isMdUp ? "600px" : "400px";
+
   const cardData = [
     {
       title: "View all questions",
       description:
         "This section allows you to view all questions available in the system.",
+      user: "Kenenth",
     },
     {
       title: "MeekPoints",
       description:
         "Track and manage your points earned by completing tasks and activities.",
+      user: "Kenenth",
     },
     {
       title: "Test yourself",
       description:
         "Test your knowledge with quizzes and challenges based on your learning.",
+      user: "Kenenth",
+    },
+    {
+      title: "Test yourself",
+      description:
+        "Test your knowledge with quizzes and challenges based on your learning.",
+      user: "Kenenth",
+    },
+    {
+      title: "Test yourself",
+      description:
+        "Test your knowledge with quizzes and challenges based on your learning.",
+      user: "Kenenth",
+    },
+    {
+      title: "Test yourself",
+      description:
+        "Test your knowledge with quizzes and challenges based on your learning.",
+      user: "Kenenth",
+    },
+    {
+      title: "Test yourself",
+      description:
+        "Test your knowledge with quizzes and challenges based on your learning.",
+      user: "Kenenth",
+    },
+    {
+      title: "Test yourself",
+      description:
+        "Test your knowledge with quizzes and challenges based on your learning.",
+      user: "Kenenth",
+    },
+    {
+      title: "Test yourself",
+      description:
+        "Test your knowledge with quizzes and challenges based on your learning.",
+      user: "Kenenth",
+    },
+    {
+      title: "Test yourself",
+      description:
+        "Test your knowledge with quizzes and challenges based on your learning.",
+      user: "Kenenth",
     },
   ];
 
-  const renderCard = (title: string, description: string) => (
-    <Card sx={{ width: "100%", margin: 0 }} key={title}>
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {description}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+  const renderCard = (title: string, description: string, user: string) => (
+    <div>
+      <Card sx={{ width: widthOfCard, margin: 0 }} key={title}>
+        <CardContent>
+          <div className="flex justify-between">
+            <Typography gutterBottom variant="h5" component="div">
+              {title}
+            </Typography>
+            <Typography gutterBottom variant="subtitle2" component="div">
+              {user}
+            </Typography>
+          </div>
+
+          <Typography variant="body2" color="text.secondary">
+            {description}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small">View Question</Button>
+        </CardActions>
+      </Card>
+      <Divider sx={{ borderBottomWidth: 2, backgroundColor: "#000" }} />
+    </div>
   );
 
   return (
-    <Box display="flex" height="100vh">
-      <Drawer variant="permanent" anchor="left">
-        <Box sx={{ width: 250 }} role="presentation">
-          <List>
-            {["View all questions", "MeekPoints", "Test yourself"].map(
-              (text) => (
-                <div key={text}>
-                  <Link href="/" passHref style={{ textDecoration: "none" }}>
-                    <ListItem disablePadding>
-                      <ListItemButton sx={{ paddingY: 3 }}>
-                        <Typography
-                          variant="body1"
-                          sx={{ textDecoration: "none", color: "black" }}
-                        >
-                          {text}
-                        </Typography>
-                      </ListItemButton>
-                    </ListItem>
-                  </Link>
-                  <Divider
-                    sx={{ borderBottomWidth: 2, backgroundColor: "#000" }}
-                  />
-                </div>
-              )
+    <div className="h-screen flex items-center justify-center">
+      {isMdUp && <DrawerComponent />}
+      <div className="flex-col h-full overflow-y-auto">
+        <Box
+          flex={1}
+          display="flex"
+          justifyContent="center"
+          overflow="auto"
+          p={3}
+        >
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            maxWidth="600px"
+            width="600px"
+          >
+            {cardData.map(({ title, description, user }) =>
+              renderCard(title, description, user)
             )}
-          </List>
+          </Box>
         </Box>
-      </Drawer>
-
-      {/* Centered Box */}
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        width="100%"
-        bgcolor="white"
-        sx={{ padding: "20px" }}
-      >
-        {/* Rendering the cards vertically without gaps */}
-        <Box width="600px">
-          {cardData.map(({ title, description }) =>
-            renderCard(title, description)
-          )}
-        </Box>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }

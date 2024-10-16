@@ -7,8 +7,8 @@ import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Confetti from "react-confetti";
 import DrawerComponent from "../components/drawer";
-import useMediaQuery from "@mui/material/useMediaQuery"; // Import useMediaQuery
-import { useTheme } from "@mui/material/styles"; // Import useTheme
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 export const dynamic = "force-dynamic";
 
