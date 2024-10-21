@@ -4,8 +4,7 @@ import clientPromise from "../../../lib/mongodb";
 export const dynamic = "force-dynamic";
 
 /*
- * This is used for the rendering of statistics, where we run an aggregate pipeline, filter based on
- * owner,
+ * This method is used to obtain the total points, points per month, points this week for a current user.
  */
 export async function GET(req: Request) {
   if (req.method === "GET") {
@@ -61,4 +60,3 @@ export async function GET(req: Request) {
     );
   }
 }
-

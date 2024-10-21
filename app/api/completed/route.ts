@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import clientPromise from "../../../lib/mongodb";
 
 export const dynamic = "force-dynamic";
+
+/*
+ * This is used to obtain all the tasks that has been completed by both kenneth and jamie(can be used by the history section)
+ */
 export async function GET(req: Request) {
   if (req.method === "GET") {
     try {
@@ -17,6 +21,10 @@ export async function GET(req: Request) {
     return NextResponse.json({ message: "Method not allowed!" });
   }
 }
+
+/*
+ * This is used to post a new completedTask after completion of task
+ */
 export async function POST(req: Request) {
   if (req.method === "POST") {
     try {
