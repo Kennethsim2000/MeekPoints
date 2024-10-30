@@ -5,10 +5,22 @@ export const dynamic = "force-dynamic";
 export async function GET(req: Request) {
   if (req.method === "GET") {
     try {
+      const params = [];
+      const { searchParams } = new URL(req.url);
+      const user = searchParams.get("filterUser");
+      const topic = searchParams.get("filterTopic");
       const client = await clientPromise();
-      const result = await client.query(`
-        SELECT * FROM public."Questions";
-      `);
+      let query = 'SELECT * FROM public."Questions" WHERE 1 = 1';
+      if (user) {
+        params.push(user);
+        query += ` AND username = $${params.length}`;
+      }
+      if (topic) {
+        params.push(topic);
+        query += ` AND topic = $${params.length}`;
+      }
+      query += ";";
+      const result = await client.query(query, params);
       return NextResponse.json({ tables: result.rows });
     } catch (error) {
       return NextResponse.json({ message: error });

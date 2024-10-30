@@ -8,19 +8,25 @@ import Link from "next/link";
 import { Typography } from "@mui/material";
 
 export default function DrawerComponent() {
+  const labels = [
+    { label: "View all questions", link: "/meekrevise/questions" },
+    { label: "MeekPoints", link: "/" },
+    { label: "Add question", link: "/meekrevise" },
+    { label: "Test yourself", link: "/meekrevise/questions" },
+  ];
   const list = () => (
     <Box sx={{ width: 250 }} role="presentation">
       <List>
-        {["View all questions", "MeekPoints", "Test yourself"].map((text) => (
-          <div key={text}>
-            <Link href="/" passHref style={{ textDecoration: "none" }}>
+        {labels.map((label) => (
+          <div key={label.label}>
+            <Link href={label.link} passHref style={{ textDecoration: "none" }}>
               <ListItem disablePadding>
                 <ListItemButton sx={{ paddingY: 3 }}>
                   <Typography
                     variant="body1"
                     sx={{ textDecoration: "none", color: "black" }}
                   >
-                    {text}
+                    {label.label}
                   </Typography>
                 </ListItemButton>
               </ListItem>

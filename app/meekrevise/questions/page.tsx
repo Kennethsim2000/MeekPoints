@@ -52,7 +52,7 @@ export default function Home() {
         <CardContent>
           <div className="flex justify-between">
             <Typography gutterBottom variant="h5" component="div">
-              {question.topic}
+              {question.question}
             </Typography>
             <Typography gutterBottom variant="subtitle2" component="div">
               {question.username}
@@ -60,7 +60,7 @@ export default function Home() {
           </div>
 
           <Typography variant="body2" color="text.secondary">
-            {question.question}
+            {question.topic}
           </Typography>
         </CardContent>
         <CardActions>
@@ -101,7 +101,7 @@ export default function Home() {
           </Box>
         </Box>
       </div>
-      <FilterQuestionsComponent />
+      <FilterQuestionsComponent setQuestions={setQuestions} />
       <Modal
         show={showQuestion}
         onHide={() => setShowQuestion(false)}
