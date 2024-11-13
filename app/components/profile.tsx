@@ -43,7 +43,6 @@ export default function ProfileComponent(props: PropType) {
   const [showComplete, setShowComplete] = useState<boolean>(false);
   const [showAddTask, setShowAddTask] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<string>("");
-  const [totalPoints, setTotalPoints] = useState<number>(0);
   const [points, setPoints] = useState<Points>();
 
   useEffect(() => {

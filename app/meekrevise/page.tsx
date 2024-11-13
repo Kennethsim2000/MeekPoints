@@ -3,12 +3,13 @@ import { FormControl, TextField, Button } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Confetti from "react-confetti";
 import DrawerComponent from "../components/drawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,7 @@ export default function Home() {
   const [topic, setTopic] = useState("");
   const [answer, setAnswer] = useState("");
   const [showAdd, setShowAdd] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false); //used to ensure that all components are loaded together
 
   const theme = useTheme();
 
@@ -68,6 +70,18 @@ export default function Home() {
         console.error(error);
       });
   };
+  useEffect(() => {
+    // Delay rendering until components are ready
+    setIsLoaded(true);
+  }, []);
+
+  if (!isLoaded) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <main className="flex h-screen w-screen bg-slate-100 justify-center items-center">

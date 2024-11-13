@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import FilterQuestionsComponent from "../../components/filterQuestions";
 import { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import {
   Typography,
@@ -33,6 +34,7 @@ export default function Home() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [showQuestion, setShowQuestion] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState<Question>();
+  const [isLoaded, setIsLoaded] = useState<Boolean>();
 
   const widthOfCard = isMdUp ? "650px" : "400px";
 
@@ -42,9 +44,18 @@ export default function Home() {
       const res2 = await res.json();
       const questions = res2.tables;
       setQuestions(questions);
+      setIsLoaded(true);
     }
     fetchQuestions();
   }, []);
+
+  if (!isLoaded) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress />
+      </div>
+    );
+  }
 
   const renderCard = (question: Question) => (
     <div>
