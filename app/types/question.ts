@@ -7,3 +7,8 @@ export type Question = {
   username: string;
   date_shown: Date;
 };
+
+export type Card = {
+  question: string;
+  answer: string;
+};
