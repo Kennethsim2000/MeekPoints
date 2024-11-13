@@ -9,6 +9,7 @@ import FilterQuestionsComponent from "../../components/filterQuestions";
 import { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Question } from "../../types/question";
 
 import {
   Typography,
@@ -17,16 +18,6 @@ import {
   CardActions,
   Button,
 } from "@mui/material";
-
-export type Question = {
-  id: number;
-  created_at: Date;
-  topic: string;
-  question: string;
-  answer: string;
-  username: string;
-  date_shown: Date;
-};
 
 export default function Home() {
   const theme = useTheme();

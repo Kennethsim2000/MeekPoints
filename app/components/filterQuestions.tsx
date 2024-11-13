@@ -4,7 +4,7 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useState } from "react";
 import { Typography, TextField, Button } from "@mui/material";
-import { Question } from "../meekrevise/questions/page";
+import { Question } from "../types/question";
 
 type PropType = {
   setQuestions: (questions: Question[]) => void;
@@ -15,10 +15,20 @@ export default function FilterQuestionsComponent(props: PropType) {
   const [sortCriteria, setSortCritera] = useState("");
 
   const handleButtonClick = async () => {
-    const res = await fetch(
-      `/api/questions?filterUser=${user}&filterTopic=${topic}&sortCriteria=${sortCriteria}`
-    );
-    const questions = await res.json();
+    try {
+      const url = `/api/questions?filterUser=${user}&filterTopic=${topic}&sortCriteria=${sortCriteria}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      const questions = data.tables;
+      props.setQuestions(questions);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleClear = () => {
+    setSortCritera("");
+    setTopic("");
+    setUser("");
   };
 
   const filterByUser = (event: SelectChangeEvent) => {
@@ -30,7 +40,7 @@ export default function FilterQuestionsComponent(props: PropType) {
   return (
     <div className="flex-col bg-slate-100 flex-grow hidden md:block gap-2">
       <div className="mt-4">
-        <Typography gutterBottom variant="h4" component="div" className="mb-3">
+        <Typography gutterBottom variant="h5" component="div" className="mb-3">
           Filter
         </Typography>
         <FormControl fullWidth className="mb-3">
@@ -58,7 +68,7 @@ export default function FilterQuestionsComponent(props: PropType) {
         </FormControl>
       </div>
       <div className="mb-3">
-        <Typography gutterBottom variant="h4" component="div" className="mb-3">
+        <Typography gutterBottom variant="h5" component="div" className="mb-3">
           Sort
         </Typography>
         <FormControl fullWidth className="mb-3">
@@ -75,14 +85,22 @@ export default function FilterQuestionsComponent(props: PropType) {
           </Select>
         </FormControl>
       </div>
-      <div>
+      <div className="flex w-full gap-4">
         <Button
           variant="outlined"
           color="primary"
-          size="large"
+          size="medium"
           onClick={handleButtonClick}
         >
           Apply Filters
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          size="medium"
+          onClick={handleClear}
+        >
+          clear selection
         </Button>
       </div>
     </div>
