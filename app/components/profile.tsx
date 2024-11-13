@@ -6,6 +6,7 @@ import HistoryComponent from "./history";
 import ModalCompleteComponent from "./modalComplete";
 import ModalAddTaskComponent from "./modalAddTask";
 import PointCardComponent from "./pointCard";
+import { Points } from "../types/meekpoints";
 
 type PropType = {
   user: string;
@@ -43,6 +44,7 @@ export default function ProfileComponent(props: PropType) {
   const [showAddTask, setShowAddTask] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<string>("");
   const [totalPoints, setTotalPoints] = useState<number>(0);
+  const [points, setPoints] = useState<Points>();
 
   useEffect(() => {
     async function fetchTasks() {
@@ -60,13 +62,16 @@ export default function ProfileComponent(props: PropType) {
         (task: TaskCompleted) => task.owner === props.user
       );
       setCompletedTasksUser(totalUserCompletedTask);
-      const totalMeekPoints = totalUserCompletedTask.reduce((acc, task) => {
-        return acc + task.meekPoints;
-      }, 0);
-      setTotalPoints(totalMeekPoints);
       setCompletedTasksTotal(totalCompletedTask);
     }
+
+    async function fetchPoints() {
+      const res = await fetch(`/api/points?owner=${props.user}`);
+      const pointsReceived: Points = await res.json();
+      setPoints(pointsReceived);
+    }
     fetchTasks();
+    fetchPoints();
     fetchCompletedTasks();
   }, []);
 
@@ -87,10 +92,9 @@ export default function ProfileComponent(props: PropType) {
         </div>
         <div className="flex bg-white h-2/5 justify-center items-center w-full md:px-8">
           <PointCardComponent
-            completedTasksUser={completedTasksUser}
             partner={partner}
-            totalPoints={totalPoints}
             user={props.user}
+            points={points!}
           />
         </div>
       </div>

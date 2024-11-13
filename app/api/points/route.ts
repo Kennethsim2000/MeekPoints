@@ -14,7 +14,7 @@ export async function GET(req: Request) {
       const collection = database.collection("CompletedTasks");
       const { searchParams } = new URL(req.url);
       const owner = searchParams.get("owner");
-      const aggregatedData = await collection
+      const totalPoints = await collection
         .aggregate([
           {
             $match: {
@@ -22,34 +22,58 @@ export async function GET(req: Request) {
             },
           },
           {
+            $group: {
+              _id: {
+                owner: owner,
+              },
+              points: { $sum: "$meekPoints" },
+            },
+          },
+          {
+            $project: {
+              // filters documents to only show the requested fields
+              _id: 0,
+              points: 1,
+            },
+          },
+        ])
+        .toArray();
+      const pointsThisMonth = await collection
+        .aggregate([
+          {
             $addFields: {
               dateCreated: { $toDate: "$dateCreated" }, //used to convert the dateCreated to a proper date, which we can use to extract the year and month later
             },
           },
           {
-            $group: {
-              // group by year and month, and obtain totalPoints by summing all of meekPoints
-              _id: {
-                year: { $year: "$dateCreated" },
-                month: { $month: "$dateCreated" },
+            $match: {
+              owner: owner,
+              $expr: {
+                $eq: [{ $month: "$dateCreated" }, { $month: new Date() }],
               },
-              totalPoints: { $sum: "$meekPoints" },
             },
           },
           {
-            $sort: { "_id.year": 1, "_id.month": 1 }, //sort by both year and month
+            $group: {
+              _id: {
+                owner: owner,
+              },
+              points: { $sum: "$meekPoints" },
+            },
           },
           {
             $project: {
               _id: 0,
-              year: "$_id.year",
-              month: "$_id.month",
-              totalPoints: 1,
+              points: 1,
             },
           },
         ])
         .toArray();
-      return NextResponse.json(aggregatedData);
+      const res = {
+        total: totalPoints[0].points,
+        month: pointsThisMonth[0].points,
+      };
+      return NextResponse.json(res);
     } catch (error) {
       return NextResponse.json({ message: error }, { status: 500 });
     }
